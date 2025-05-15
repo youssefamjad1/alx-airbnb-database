@@ -39,3 +39,40 @@ See the full project spec for all other attributes and constraints.
    *Because MySQL lacks a native FULL OUTER JOIN, the script uses*  
    ```sql
    LEFT JOIN … UNION RIGHT JOIN …
+
+# Task 1 – Practice Subqueries  
+*ALX Airbnb Database – Advanced SQL Querying*
+
+---
+
+## 📌 Objective
+This task demonstrates SQL subqueries using the Airbnb schema. The goal is to practice both:
+
+- Non-correlated subqueries
+- Correlated subqueries
+
+---
+
+## 🗂 Files
+
+| File            | Purpose                                 |
+|-----------------|------------------------------------------|
+| `subqueries.sql` | SQL script with 2 subqueries            |
+| `README.md`     | Task explanation and how to run queries |
+
+---
+
+## 📑 Queries
+
+### 1️⃣ Non-correlated subquery:  
+**Find all properties where the average rating is greater than 4.0**
+
+```sql
+SELECT *
+FROM Property
+WHERE property_id IN (
+    SELECT property_id
+    FROM Review
+    GROUP BY property_id
+    HAVING AVG(rating) > 4.0
+);
