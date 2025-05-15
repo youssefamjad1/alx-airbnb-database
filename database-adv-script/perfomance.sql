@@ -1,4 +1,4 @@
--- Initial complex query: Retrieve all bookings with user, property, and payment details
+-- Initial query: Retrieve all bookings with user, property, and payment details
 SELECT
     b.booking_id,
     b.start_date,
@@ -20,12 +20,11 @@ SELECT
 FROM Booking b
 JOIN User u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-LEFT JOIN Payment pay ON b.booking_id = pay.booking_id;
+LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed' AND b.start_date >= CURRENT_DATE;
 
-
--- Refactored query to improve performance
--- Assumes every booking should have payment, so LEFT JOIN changed to INNER JOIN
--- Added filtering on booking status to reduce result set (optional based on your use case)
+-- Analyze the query's performance using EXPLAIN
+EXPLAIN ANALYZE
 SELECT
     b.booking_id,
     b.start_date,
@@ -47,11 +46,5 @@ SELECT
 FROM Booking b
 JOIN User u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-JOIN Payment pay ON b.booking_id = pay.booking_id
-WHERE b.status = 'confirmed';  -- Optional filter for performance optimization
-
--- Recommended indexes to support joins and filtering (execute separately)
--- CREATE INDEX idx_booking_user_id ON Booking(user_id);
--- CREATE INDEX idx_booking_property_id ON Booking(property_id);
--- CREATE INDEX idx_payment_booking_id ON Payment(booking_id);
--- CREATE INDEX idx_booking_status ON Booking(status);
+LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed' AND b.start_date >= CURRENT_DATE;
