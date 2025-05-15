@@ -76,3 +76,38 @@ WHERE property_id IN (
     GROUP BY property_id
     HAVING AVG(rating) > 4.0
 );
+
+# Task 2 – Apply Aggregations and Window Functions  
+*ALX Airbnb Database – Advanced SQL Querying*
+
+---
+
+## 📌 Objective
+This task demonstrates how to use SQL aggregation and window functions for analysis, using the Airbnb schema.
+
+---
+
+## 🗂 Files
+
+| File                                | Description                                   |
+|-------------------------------------|-----------------------------------------------|
+| `aggregations_and_window_functions.sql` | SQL script with aggregation and window functions |
+| `README.md`                         | Task explanation and instructions             |
+
+---
+
+## 🧮 Queries
+
+### 1️⃣ Total Bookings per User  
+**Query to count total bookings made by each user**
+
+```sql
+SELECT 
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    COUNT(b.booking_id) AS total_bookings
+FROM User u
+LEFT JOIN Booking b ON u.user_id = b.user_id
+GROUP BY u.user_id, u.first_name, u.last_name
+ORDER BY total_bookings DESC;
